@@ -29,6 +29,10 @@ const INVADER = [
 ];
 const PIXEL = 3;
 
+const isTouch = () =>
+  typeof window !== "undefined" &&
+  ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
 export default function LandingPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const grainRef = useRef<HTMLCanvasElement>(null);
@@ -47,6 +51,8 @@ export default function LandingPage() {
 
   // ── RAF: parallax + grain mask + corner invader reveal ────────────
   useEffect(() => {
+    if (isTouch()) return; // disable all cursor effects on touch devices
+
     let raf: number;
 
     const loop = () => {
@@ -105,6 +111,8 @@ export default function LandingPage() {
 
   // ── Film grain canvas ─────────────────────────────────────────────
   useEffect(() => {
+    if (isTouch()) return; // skip grain on mobile
+
     const canvas = grainRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -133,6 +141,8 @@ export default function LandingPage() {
 
   // ── Space invader pixel art canvas (drawn once) ───────────────────
   useEffect(() => {
+    if (isTouch()) return;
+
     const canvas = invaderCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -154,7 +164,10 @@ export default function LandingPage() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowVideo(false);
-        if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
+        if (videoRef.current) {
+          videoRef.current.pause();
+          videoRef.current.currentTime = 0;
+        }
         return;
       }
       const next = [...konamiSeq.current, e.key].slice(-KONAMI.length);
@@ -241,11 +254,11 @@ export default function LandingPage() {
         <p
           style={{
             fontFamily: "Space Grotesk, sans-serif",
-            fontSize: "clamp(0.58rem, 1.2vw, 0.7rem)",
+            fontSize: "clamp(0.5rem, 2.8vw, 0.7rem)",
             color: "rgba(255,255,255,0.22)",
             letterSpacing: "0.45em",
             textTransform: "uppercase",
-            marginBottom: "2rem",
+            marginBottom: "clamp(1rem, 3vw, 2rem)",
           }}
         >
           independent app studio
@@ -255,7 +268,7 @@ export default function LandingPage() {
           onClick={handleTitleClick}
           style={{
             fontFamily: "Syne, sans-serif",
-            fontSize: "clamp(2.6rem, 7.5vw, 6.5rem)",
+            fontSize: "clamp(1.2rem, 6.5vw, 6.5rem)",
             fontWeight: 800,
             color: "#ffffff",
             letterSpacing: "-0.04em",
@@ -272,12 +285,12 @@ export default function LandingPage() {
         <p
           style={{
             fontFamily: "Space Grotesk, sans-serif",
-            fontSize: "clamp(0.6rem, 1.4vw, 0.82rem)",
+            fontSize: "clamp(0.5rem, 2.8vw, 0.82rem)",
             color: "rgba(255,255,255,0.18)",
             letterSpacing: "1.1em",
             textTransform: "uppercase",
-            marginTop: "0.9rem",
-            marginBottom: "3rem",
+            marginTop: "clamp(0.5rem, 2vw, 0.9rem)",
+            marginBottom: "clamp(1.5rem, 5vw, 3rem)",
           }}
         >
           Apps
@@ -286,10 +299,10 @@ export default function LandingPage() {
         <p
           style={{
             fontFamily: "Space Grotesk, sans-serif",
-            fontSize: "clamp(0.85rem, 1.8vw, 1rem)",
+            fontSize: "clamp(0.75rem, 3.5vw, 1rem)",
             fontWeight: 300,
             color: "rgba(255,255,255,0.36)",
-            lineHeight: 1.0,
+            lineHeight: 1.4,
           }}
         >
           We build the apps we wish existed.
@@ -301,10 +314,10 @@ export default function LandingPage() {
         onClick={() => setShowContact(true)}
         style={{
           position: "absolute",
-          bottom: "2rem",
-          right: "2rem",
+          bottom: "1.5rem",
+          right: "1.5rem",
           fontFamily: "Space Grotesk, sans-serif",
-          fontSize: "0.8rem",
+          fontSize: "clamp(0.65rem, 2.5vw, 0.8rem)",
           fontWeight: 400,
           color: "rgba(255,255,255,0.28)",
           background: "none",
@@ -374,7 +387,7 @@ export default function LandingPage() {
               href={`mailto:${CONTACT_EMAIL}`}
               style={{
                 fontFamily: "JetBrains Mono, monospace",
-                fontSize: "clamp(0.8rem, 2.5vw, 1rem)",
+                fontSize: "clamp(0.7rem, 3.5vw, 1rem)",
                 color: "#ffffff",
                 textDecoration: "none",
                 borderBottom: "1px solid rgba(255,255,255,0.2)",
@@ -398,36 +411,38 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* ── Konami hint ───────────────────────────────────────────── */}
+      {/* ── Konami hint (desktop only) ────────────────────────────── */}
       <p
         aria-hidden
         style={{
           position: "absolute",
-          bottom: "2rem",
-          left: "2rem",
+          bottom: "1.5rem",
+          left: "1.5rem",
           fontFamily: "JetBrains Mono, monospace",
-          fontSize: "0.65rem",
+          fontSize: "0.55rem",
           color: "rgba(255,255,255,0.2)",
           letterSpacing: "0.15em",
           userSelect: "none",
           zIndex: 4,
+          display: isTouch() ? "none" : "block",
         }}
       >
         ↑↑↓↓←→←→ BA
       </p>
 
-      {/* ── Corner easter egg: space invader ──────────────────────── */}
+      {/* ── Corner easter egg: space invader (desktop only) ───────── */}
       <div
         ref={invaderRef}
         onClick={handleInvaderClick}
         style={{
           position: "absolute",
-          top: "2rem",
-          right: "2rem",
+          top: "1.5rem",
+          right: "1.5rem",
           opacity: 0,
           transition: "opacity 0.4s ease",
           cursor: "pointer",
           zIndex: 4,
+          display: isTouch() ? "none" : "block",
         }}
       >
         <canvas
@@ -442,8 +457,8 @@ export default function LandingPage() {
         <p
           style={{
             position: "absolute",
-            top: "calc(2rem + 32px)",
-            right: "2rem",
+            top: "calc(1.5rem + 32px)",
+            right: "1.5rem",
             fontFamily: "JetBrains Mono, monospace",
             fontSize: "0.6rem",
             color: "rgba(255,255,255,0.45)",
@@ -462,7 +477,10 @@ export default function LandingPage() {
       <div
         onClick={() => {
           setShowVideo(false);
-          if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
+          if (videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
+          }
         }}
         style={{
           position: "fixed",
