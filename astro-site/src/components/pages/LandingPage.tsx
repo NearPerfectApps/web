@@ -34,6 +34,7 @@ export default function LandingPage() {
   const grainRef = useRef<HTMLCanvasElement>(null);
   const invaderRef = useRef<HTMLDivElement>(null);
   const invaderCanvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const mouse = useRef({ x: -9999, y: -9999 });
   const smooth = useRef({ x: -9999, y: -9999 });
   const scrambling = useRef(false);
@@ -153,6 +154,7 @@ export default function LandingPage() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowVideo(false);
+        if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
         return;
       }
       const next = [...konamiSeq.current, e.key].slice(-KONAMI.length);
@@ -160,6 +162,7 @@ export default function LandingPage() {
       if (next.join(",") === KONAMI.join(",")) {
         konamiSeq.current = [];
         setShowVideo(true);
+        videoRef.current?.play();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -455,32 +458,37 @@ export default function LandingPage() {
         </p>
       )}
 
-      {/* ── Easter egg: fullscreen video ──────────────────────────── */}
-      {showVideo && (
-        <div
-          onClick={() => setShowVideo(false)}
+      {/* ── Easter egg: fullscreen video (always in DOM for preload) ─ */}
+      <div
+        onClick={() => {
+          setShowVideo(false);
+          if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
+        }}
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 100,
+          cursor: "pointer",
+          opacity: showVideo ? 1 : 0,
+          pointerEvents: showVideo ? "auto" : "none",
+          transition: "opacity 0.3s ease",
+        }}
+      >
+        <video
+          ref={videoRef}
+          src="/nevergonnagiveyouup.mp4"
+          preload="auto"
+          loop
+          playsInline
           style={{
-            position: "fixed",
+            position: "absolute",
             inset: 0,
-            zIndex: 100,
-            cursor: "pointer",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
           }}
-        >
-          <video
-            src="/nevergonnagiveyouup.mp4"
-            autoPlay
-            loop
-            playsInline
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </div>
-      )}
+        />
+      </div>
 
       <style>{`
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
