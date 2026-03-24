@@ -1,0 +1,117 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Privacy Policy" } = Astro.props;
+---
+
+<BaseLayout title={title} bodyClass="min-h-screen overflow-y-auto">
+  <main class="policy-shell">
+    <div class="policy-card">
+      <slot />
+    </div>
+  </main>
+
+  <style>
+    .policy-shell {
+      min-height: 100vh;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 6vw, 4rem);
+      background:
+        radial-gradient(ellipse 90% 70% at 15% 110%, rgba(50,22,4,0.55) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 85% -10%, rgba(30,12,2,0.35) 0%, transparent 50%),
+        #0b0907;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .policy-card {
+      width: min(960px, 100%);
+      background: rgba(12, 10, 8, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      padding: clamp(2rem, 5vw, 3.5rem);
+      backdrop-filter: blur(6px);
+    }
+
+    .policy-card :global(.policy-content) {
+      font-family: "Space Grotesk", sans-serif;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.7;
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+    }
+
+    .policy-card :global(.policy-content h1) {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 0.75rem 0;
+      color: #ffffff;
+    }
+
+    .policy-card :global(.policy-updated) {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 2rem;
+    }
+
+    .policy-card :global(.policy-content h2) {
+      font-family: "Syne", sans-serif;
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      color: #ffffff;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .policy-card :global(.policy-content h3) {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .policy-card :global(.policy-content h4) {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-top: 1.25rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .policy-card :global(.policy-content p) {
+      margin: 0 0 1rem 0;
+    }
+
+    .policy-card :global(.policy-content ul) {
+      margin: 0 0 1rem 1.2rem;
+      padding: 0;
+    }
+
+    .policy-card :global(.policy-content li) {
+      margin-bottom: 0.5rem;
+    }
+
+    .policy-card :global(.policy-content a) {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .policy-card :global(.policy-content a:hover) {
+      color: #ffffff;
+      border-bottom-color: rgba(255, 255, 255, 0.6);
+    }
+  </style>
+</BaseLayout>

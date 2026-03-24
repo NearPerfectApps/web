@@ -28,6 +28,11 @@ const INVADER = [
   [0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0],
 ];
 const PIXEL = 3;
+const PRIVACY_LINKS = [
+  { name: "Chadify", href: "/privacy/chadify" },
+  { name: "Calorie Counter - Easy & Fast", href: "/privacy/calorie-counter-easy-fast" },
+  { name: "MemKey", href: "/privacy/memkey" },
+];
 
 const isTouch = () =>
   typeof window !== "undefined" &&
@@ -307,6 +312,65 @@ export default function LandingPage() {
         >
           We build the apps we wish existed.
         </p>
+
+        <div
+          style={{
+            marginTop: "clamp(1.6rem, 4vw, 2.6rem)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "0.9rem",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "Space Grotesk, sans-serif",
+              fontSize: "clamp(0.55rem, 2.6vw, 0.7rem)",
+              color: "rgba(255,255,255,0.25)",
+              letterSpacing: "0.35em",
+              textTransform: "uppercase",
+              margin: 0,
+            }}
+          >
+            privacy policies
+          </p>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "1.1rem",
+            }}
+          >
+            {PRIVACY_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                style={{
+                  fontFamily: "JetBrains Mono, monospace",
+                  fontSize: "clamp(0.65rem, 2.6vw, 0.85rem)",
+                  color: "rgba(255,255,255,0.5)",
+                  textDecoration: "none",
+                  borderBottom: "1px solid rgba(255,255,255,0.18)",
+                  paddingBottom: "2px",
+                  transition: "color 0.2s ease, border-color 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = "rgba(255,255,255,0.85)";
+                  el.style.borderBottomColor = "rgba(255,255,255,0.45)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = "rgba(255,255,255,0.5)";
+                  el.style.borderBottomColor = "rgba(255,255,255,0.18)";
+                }}
+              >
+                {link.name}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* ── Contact ───────────────────────────────────────────────── */}
