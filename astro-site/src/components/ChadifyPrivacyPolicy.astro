@@ -116,15 +116,47 @@ const {
     <li>Pictures and other information from your Device's camera and photo library</li>
   </ul>
   <p>
-    We use this information solely to perform the AI photo transformation feature.
-    Photos submitted for transformation are processed by our AI provider and
-    deleted from our servers immediately after the transformation is complete. We
-    do not store, analyze, or use your photos for any other purpose.
-  </p>
-  <p>
     You can enable or disable access to this information at any time, through Your
     Device settings.
   </p>
+
+  <h4>Face Data</h4>
+  <p>
+    The core feature of {appName} requires you to submit a photo that may contain
+    your face or likeness. The following describes exactly how this data is handled:
+  </p>
+  <ul>
+    <li>
+      <strong>What we collect:</strong> A single photo provided by you via the
+      device camera or photo library. This photo may contain a face or other
+      biometric likeness. We do not extract facial landmarks, biometric templates,
+      embeddings, or any other derived face data — only the raw image is processed.
+    </li>
+    <li>
+      <strong>How it is used:</strong> The photo is used solely to generate an
+      AI-styled portrait transformation. It is transmitted securely to Google LLC
+      (Gemini API) for image processing. No other use is made of the photo.
+    </li>
+    <li>
+      <strong>Third-party sharing:</strong> Your photo is shared with Google LLC
+      (Gemini API, operated by Google) for the sole purpose of processing the
+      transformation. Google does not retain the image for model training or any
+      other purpose beyond processing the request, in accordance with Google's API
+      terms of service. No other third parties receive your photo.
+    </li>
+    <li>
+      <strong>Storage:</strong> Your original photo is transmitted to our backend
+      infrastructure (Convex) only for the duration of the transformation process.
+      It is permanently and immediately deleted from our servers as soon as the
+      transformed result is generated — typically within seconds. The transformed
+      result image is stored on Convex infrastructure until you choose to delete it.
+    </li>
+    <li>
+      <strong>Retention:</strong> Your original photo is retained for seconds only —
+      it is deleted immediately after the transformation is complete. The transformed
+      result is retained until you delete it through the app or delete your account.
+    </li>
+  </ul>
 
   <h3>Use of Your Personal Data</h3>
   <p>The Company may use Personal Data for the following purposes:</p>
@@ -164,7 +196,8 @@ const {
     <li>User Accounts: retained for the duration of your account relationship plus up to 24 months after account closure.</li>
     <li>Application usage statistics: up to 24 months.</li>
     <li>Server logs: up to 24 months for security monitoring and troubleshooting.</li>
-    <li>Submitted photos: deleted immediately after transformation is complete.</li>
+    <li>Submitted photos (including face data): deleted immediately and permanently after the transformation is complete — typically within seconds of submission. The original photo is never retained beyond this point.</li>
+    <li>Transformed result images: retained until deleted by the user or upon account deletion.</li>
   </ul>
   <p>
     We may retain Personal Data beyond the periods stated above only for legal
